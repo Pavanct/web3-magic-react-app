@@ -1,9 +1,9 @@
-import React, { useState } from "react"
-import { Button, Paper, TextField, Typography } from "@mui/material"
 import SendIcon from "@mui/icons-material/Send"
-import "./Login.css"
-import { login } from "../services/magic"
+import { Button, Paper, TextField, Typography } from "@mui/material"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { login } from "../services/magic"
+import "./Login.css"
 
 function Login() {
   //   const classes = useStyles()

@@ -20,7 +20,6 @@ export const checkUser = async () => {
   const isLoggedIn = await magic.user.isLoggedIn()
   if (isLoggedIn) {
     try {
-      console.log(isLoggedIn)
       const { email, publicAddress } = await magic.user.getMetadata()
       return { isLoggedIn, email, publicAddress }
     } catch (error) {
@@ -52,19 +51,17 @@ export async function fetchBalance(address) {
   const balance = maticWeb3.utils.fromWei(
     await maticWeb3.eth.getBalance(address) // Balance is in wei
   )
-  console.log(balance)
   return balance
 }
 
 export async function fetchAccounts() {
   const publicAddress = (await maticWeb3.eth.getAccounts())[0]
-  console.log(publicAddress)
   return publicAddress
 }
 
 export async function send({ fromAddress, destination, amountToSend }) {
     console.log(amountToSend)
-  // Convert 1 ether to wei
+  // Convert ether/matic to wei
   const amount = maticWeb3.utils.toWei(amountToSend.toString())
 
   // Submit transaction to the blockchain and wait for it to be mined

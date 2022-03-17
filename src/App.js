@@ -1,17 +1,11 @@
-import { Fragment, useEffect, useState } from "react"
+import { Typography } from "@mui/material"
+import { useEffect, useState } from "react"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import "./App.css"
 import PrivateRoute from "./components/PrivateRoute"
 import Dashboard from "./Pages/Dashboard"
 import Login from "./Pages/Login"
 import { checkUser } from "./services/magic"
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom"
-import { UserContext } from "./context/userContext"
-import { Typography } from "@mui/material"
 
 function App() {
   const [userEmail, setUserEmail] = useState("")

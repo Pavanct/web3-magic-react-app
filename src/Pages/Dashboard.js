@@ -3,19 +3,19 @@ import { useState } from "react"
 import {
   fetchAccounts,
   fetchBalance,
-  fetchWallet,
   logout,
   send,
 } from "../services/magic"
 
 import { Button, Tab, Tabs, TextField, Typography } from "@mui/material"
-import { Box, margin } from "@mui/system"
+import { Box } from "@mui/system"
 import TabPanel from "../components/TabPanel"
 import PropTypes from "prop-types"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import { useNavigate } from "react-router-dom"
 import SendIcon from "@mui/icons-material/Send"
+import Alert from "@mui/material/Alert"
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -35,7 +35,7 @@ function Dashboard({ address }) {
   const [balance, setBalance] = useState(null)
   const [destinationAddress, setDestinationAddress] = useState("")
   const [amount, setAmount] = useState("")
-  const [receipt, setReceipt] = useState()
+  const [alert, setAlert] = useState(false)
 
   const navigate = useNavigate()
 
@@ -49,32 +49,23 @@ function Dashboard({ address }) {
     fetchData().catch((err) => console.error(err))
   }, [balance])
 
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = useState(0)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
 
   const sendTransaction = async () => {
-    console.log(address, destinationAddress,amount)
     const receipt = await send({
       fromAddress: address,
       destination: destinationAddress,
       amountToSend: amount,
     })
-    console.log(receipt)
-    setReceipt(receipt)
+    setAlert(true)
   }
 
   return (
     <div>
-      {/* Account */}
-      {/* Copyable address */}
-      {/* Currency symbol
-       * Value {Currency} *
-       * Send * -> drop down form
-       * activity recent
-       */}
       <div
         style={{
           justifyContent: "flex-end",
@@ -141,7 +132,7 @@ function Dashboard({ address }) {
           autoComplete="text"
           value={destinationAddress}
           onChange={(e) => setDestinationAddress(e.target.value)}
-          style={{ marginRight: "10px", width: "30%" }}
+          style={{ marginRight: "10px", width: "50%" }}
         />
         <br />
         <br />
@@ -155,6 +146,7 @@ function Dashboard({ address }) {
           autoComplete="text"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          style={{ marginRight: "10px", width: "20%" }}
         />
         <br />
         <br />
@@ -168,6 +160,7 @@ function Dashboard({ address }) {
           Send MATIC
         </Button>
       </TabPanel>
+      {alert ? <Alert severity="info">Transaction started</Alert> : <></>}
     </div>
   )
 }
