@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, Paper, TextField } from "@mui/material"
+import { Button, Paper, TextField, Typography } from "@mui/material"
 import SendIcon from "@mui/icons-material/Send"
 import "./Login.css"
 import { login } from "../services/magic"
@@ -43,6 +43,11 @@ function Login() {
           >
             Send Email
           </Button>
+          <br />
+          <br />
+          <Typography variant="subtitle2" gutterBottom component="div">
+            A link will be sent you for Login
+          </Typography>
         </div>
       </Paper>
     </div>

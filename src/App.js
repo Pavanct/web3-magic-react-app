@@ -11,23 +11,28 @@ import {
   Navigate,
 } from "react-router-dom"
 import { UserContext } from "./context/userContext"
+import { Typography } from "@mui/material"
 
 function App() {
   const [userEmail, setUserEmail] = useState("")
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [address, setAddress] = useState("")
 
   useEffect(() => {
     checkUser()
       .then((a) => {
         setIsLoggedIn(a.isLoggedIn)
         setUserEmail(a.email)
+        setAddress(a.publicAddress)
       })
       .catch((e) => console.error(e))
   }, [isLoggedIn])
 
   return (
     <div className="App">
-      <h1>Web 3 React magic</h1>
+      <Typography variant="h4" gutterBottom component="div">
+        React Magic Link with Web3
+      </Typography>
       {/* {isLoggedIn ? <Dashboard /> : <Login />} */}
       <Router>
         <Routes>
@@ -36,7 +41,7 @@ function App() {
             path="/"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
-                <Dashboard />
+                <Dashboard address={address} />
               </PrivateRoute>
             }
           ></Route>
