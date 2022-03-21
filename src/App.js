@@ -2,11 +2,11 @@ import { CircularProgress, Paper, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import "./App.css"
-import PrivateRoute from "./components/PrivateRoute"
-import Dashboard from "./pages/Dashboard"
-import Login from "./pages/Login"
-import { checkUser } from "./services/magic"
-import { UserContext } from "./context/UserContext"
+import PrivateRoute from "@components/PrivateRoute"
+import Dashboard from "@pages/Dashboard"
+import Login from "@pages/Login"
+import { checkUser } from "@services/magic"
+import { UserContext } from "@context/UserContext"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)

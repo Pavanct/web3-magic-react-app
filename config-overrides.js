@@ -1,3 +1,5 @@
+const { alias } = require("react-app-rewire-alias")
+
 module.exports = function override(config) {
   const fallback = config.resolve.fallback || {}
   Object.assign(fallback, {
@@ -10,6 +12,13 @@ module.exports = function override(config) {
     url: require.resolve("url"),
   })
   config.resolve.fallback = fallback
+
+  alias({
+    "@components": "src/components",
+    "@services": "src/services",
+    "@pages": "src/pages",
+    "@context": "src/context",
+  })(config)
 
   return config
 }
