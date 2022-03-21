@@ -14,13 +14,21 @@ function App() {
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
-    checkUser()
-      .then(({ isLoggedIn, publicAddress }) => {
-        setIsLoggedIn(isLoggedIn)
-        setAddress(publicAddress)
+    async function validateUser() {
+      try {
+        const user = await checkUser()
+        user && user.isLoggedIn
+          ? setIsLoggedIn(user.isLoggedIn)
+          : setIsLoggedIn(false)
+        user && user.publicAddress
+          ? setAddress(user.publicAddress)
+          : setAddress("")
         setLoading(false)
-      })
-      .catch((e) => console.error(e))
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    validateUser()
   }, [isLoggedIn])
 
   if (isLoading) {
@@ -37,7 +45,7 @@ function App() {
         elevation={15}
         style={{ padding: "30px", minHeight: "48vh", minWidth: "30vw" }}
       >
-        <Typography variant="h4" gutterBottom component="div">
+        <Typography variant="h5" gutterBottom component="div">
           Magic Wallet
         </Typography>
         <UserContext.Provider value={isLoggedIn}>

@@ -81,6 +81,11 @@ function Dashboard({ address }) {
     element === "backdrop" ? setBackDropOpen(false) : setAlert(false)
   }
 
+  const handleCopy = () => {
+    setAlertBody("copied: " + address)
+    setAlert(true)
+  }
+
   const action = (
     <Button
       color="inherit"
@@ -119,7 +124,9 @@ function Dashboard({ address }) {
           justifyContent: "center",
           flexDirection: "row",
           margin: "0 auto",
-          width: "30vw",
+          width: "40vw",
+          flexWrap: "wrap",
+          wordWrap: "break-word",
         }}
       >
         <Tabs
@@ -132,121 +139,122 @@ function Dashboard({ address }) {
           <Tab label="Account" {...a11yProps(0)} />
           <Tab label="Send" {...a11yProps(1)} />
         </Tabs>
-      </Box>
-      <TabPanel value={value} index={0} style={{ textAlign: "left" }}>
-        {/* Account information */}
-        {address}
-        <CopyToClipboard text={address}>
-          {/* <ContentCopyIcon /> */}
-          <Button>
-            <ContentCopyIcon />
-          </Button>
-        </CopyToClipboard>
-        <br />
-        <br />
-        <Typography
-          variant="body1"
-          gutterBottom
-          component="span"
-          fontSize="22px"
-        >
-          {balance} MATIC
-        </Typography>
-      </TabPanel>
-      <TabPanel value={value} index={1} style={{ textAlign: "left" }}>
-        {/* Send */}
-        <Typography
-          variant="body1"
-          gutterBottom
-          component="span"
-          fontWeight="600"
-        >
-          Amount available:&nbsp;
-        </Typography>
-        <Typography variant="body1" gutterBottom component="span">
-          {balance} MATIC
-        </Typography>
-        <br />
-        <br />
-        <Typography
-          variant="body1"
-          gutterBottom
-          component="span"
-          fontWeight="600"
-        >
-          Your address:&nbsp;
-        </Typography>
-        <Typography variant="body1" gutterBottom component="span">
+        <TabPanel value={value} index={0} style={{ textAlign: "left" }}>
+          {/* Account information */}
           {address}
-        </Typography>
-        <br />
-        <br />
-        <TextField
-          className="dest-address"
-          id="standard-text-input"
-          label="Destination address"
-          type="text"
-          variant="standard"
-          size="medium"
-          autoComplete="text"
-          value={destinationAddress}
-          onChange={(e) => setDestinationAddress(e.target.value)}
-          style={{ marginRight: "10px", width: "50%" }}
-        />
-        <br />
-        <br />
-        <TextField
-          className="amount"
-          id="standard-text-input"
-          label="Amount"
-          type="text"
-          variant="standard"
-          size="medium"
-          autoComplete="text"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          style={{ marginRight: "10px", width: "20%" }}
-        />
-        <br />
-        <br />
-        <Button
-          onClick={() => sendTransaction()}
-          variant="contained"
-          endIcon={<SendIcon />}
-          color="primary"
+          <CopyToClipboard text={address} onCopy={() => handleCopy()}>
+            {/* <ContentCopyIcon /> */}
+            <Button>
+              <ContentCopyIcon />
+            </Button>
+          </CopyToClipboard>
+          <br />
+          <br />
+          <Typography
+            variant="body1"
+            gutterBottom
+            component="span"
+            fontSize="16px"
+            fontWeight="600"
+          >
+            {balance} MATIC
+          </Typography>
+        </TabPanel>
+        <TabPanel value={value} index={1} style={{ textAlign: "left" }}>
+          {/* Send */}
+          <Typography
+            variant="body1"
+            gutterBottom
+            component="span"
+            fontWeight="600"
+          >
+            Amount available:&nbsp;
+          </Typography>
+          <Typography variant="body1" gutterBottom component="span">
+            {balance} MATIC
+          </Typography>
+          <br />
+          <br />
+          <Typography
+            variant="body1"
+            gutterBottom
+            component="span"
+            fontWeight="600"
+          >
+            Your address:&nbsp;
+          </Typography>
+          <Typography variant="body1" gutterBottom component="span">
+            {address}
+          </Typography>
+          <br />
+          <br />
+          <TextField
+            className="dest-address"
+            id="standard-text-input"
+            label="Destination address"
+            type="text"
+            variant="standard"
+            size="medium"
+            autoComplete="text"
+            value={destinationAddress}
+            onChange={(e) => setDestinationAddress(e.target.value)}
+            style={{ marginRight: "10px", width: "50%" }}
+          />
+          <br />
+          <br />
+          <TextField
+            className="amount"
+            id="standard-text-input"
+            label="Amount"
+            type="text"
+            variant="standard"
+            size="medium"
+            autoComplete="text"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            style={{ marginRight: "10px", width: "20%" }}
+          />
+          <br />
+          <br />
+          <Button
+            onClick={() => sendTransaction()}
+            variant="contained"
+            endIcon={<SendIcon />}
+            color="primary"
+          >
+            Send
+          </Button>
+        </TabPanel>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={backDropOpen}
+          onClick={() => handleClose("backdrop")}
         >
-          Send
-        </Button>
-      </TabPanel>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={backDropOpen}
-        onClick={() => handleClose("backdrop")}
-      >
-        {/* <CircularProgress color="primary" /> */}
-        <Typography variant="body1" gutterBottom component="span">
-          Sending {amount}&nbsp;
-        </Typography>
-        <br />
-        <Typography variant="body1" gutterBottom component="span">
-          Please wait for confirmation...
-        </Typography>
-      </Backdrop>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        action={action}
-        autoHideDuration={6000}
-        open={alert}
-        onClose={() => handleClose("snackbar")}
-      >
-        <Alert
+          {/* <CircularProgress color="primary" /> */}
+          <Typography variant="body1" gutterBottom component="span">
+            Sending {amount}&nbsp;
+          </Typography>
+          <br />
+          <Typography variant="body1" gutterBottom component="span">
+            Please wait for confirmation...
+          </Typography>
+        </Backdrop>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          action={action}
+          autoHideDuration={6000}
+          open={alert}
           onClose={() => handleClose("snackbar")}
-          severity="success"
-          sx={{ width: "100%" }}
         >
-          {alertBody}
-        </Alert>
-      </Snackbar>
+          <Alert
+            onClose={() => handleClose("snackbar")}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            {alertBody}
+          </Alert>
+        </Snackbar>
+      </Box>
     </div>
   )
 }

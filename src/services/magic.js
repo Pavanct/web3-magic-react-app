@@ -1,4 +1,4 @@
-import { Magic } from "magic-sdk"
+import { Magic, RPCError, RPCErrorCode } from "magic-sdk"
 import Web3 from "web3"
 
 /**
@@ -34,8 +34,21 @@ export const login = async (email) => {
   try {
     console.log(`logging in with ${email}`)
     await magic.auth.loginWithMagicLink({ email })
-  } catch (error) {
-    console.error(error)
+  } catch (err) {
+    console.error(err)
+    if (err instanceof RPCError) {
+      switch (err.code) {
+        case RPCErrorCode.MagicLinkFailedVerification:
+        case RPCErrorCode.MagicLinkExpired:
+        case RPCErrorCode.MagicLinkRateLimited:
+        case RPCErrorCode.UserAlreadyLoggedIn:
+          console.error(err);
+          // Handle errors accordingly :)
+          break
+        default:
+          break
+      }
+    }
   }
 }
 
