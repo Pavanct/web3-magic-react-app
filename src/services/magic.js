@@ -9,7 +9,7 @@ const polygonNodeOptions = {
   chainId: 80001,
 }
 
-const magic = new Magic("pk_live_7BA1D490E8474314", {
+const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY, {
   network: polygonNodeOptions,
 })
 magic.network = "matic"
@@ -26,6 +26,7 @@ export const checkUser = async () => {
       console.error(error)
     }
   }
+  return null
 }
 
 export const login = async (email) => {
@@ -60,7 +61,6 @@ export async function fetchAccounts() {
 }
 
 export async function send({ fromAddress, destination, amountToSend }) {
-    console.log(amountToSend)
   // Convert ether/matic to wei
   const amount = maticWeb3.utils.toWei(amountToSend.toString())
 
